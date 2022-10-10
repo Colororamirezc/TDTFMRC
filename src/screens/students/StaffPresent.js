@@ -1,56 +1,103 @@
-import React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
-const StaffPresent = () => {
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
 
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
+function createData(grade, specialty, name, rut, lunch, reason) {
+  return { grade, specialty, name, rut, lunch, reason };
+}
+
+const rows = [
+  createData("STE", "(TI)", "Luis Chamorro Soto", "19.524.920-2", "SI", "-"),
+  createData(
+    "STE",
+    "(TI)",
+    "Matías Ramírez Cisternas",
+    "19.469.189-0",
+    "SI",
+    "-"
+  ),
+  createData(
+    "STE",
+    "(TI)",
+    "Daniel Valdivia Faúndez",
+    "19.716.744-0",
+    "SI",
+    "-"
+  ),
+  createData(
+    "STE",
+    "(TI)",
+    "Gonzalo Fuentes Gesell",
+    "19.366.717-1",
+    "NO",
+    "BALCE"
+  ),
+  createData("STE", "(TI)", "Esteban Vera Garrido", "19.154.446-3", "SI", "-"),
+  createData(
+    "STE",
+    "(TI)",
+    "Cristobal Careaga Zapata",
+    "19.700.925-K",
+    "SI",
+    "-"
+  ),
+];
+
+export default function CustomizedTables() {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <StyledTableCell>Grado </StyledTableCell>
+            <StyledTableCell align="center">Especialidad</StyledTableCell>
+            <StyledTableCell align="left">Nombre</StyledTableCell>
+            <StyledTableCell align="left">Rut</StyledTableCell>
+            <StyledTableCell align="center">Almuerzo</StyledTableCell>
+            <StyledTableCell align="center">Motivo</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
+            <StyledTableRow key={row.name}>
+              <StyledTableCell component="th" scope="row">
+                {row.grade}
+              </StyledTableCell>
+              <StyledTableCell align="center">{row.specialty}</StyledTableCell>
+              <StyledTableCell align="left">{row.name}</StyledTableCell>
+              <StyledTableCell align="left">{row.rut}</StyledTableCell>
+              <StyledTableCell align="center">{row.lunch}</StyledTableCell>
+              <StyledTableCell align="center">{row.reason}</StyledTableCell>
+            </StyledTableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
   );
-};
-
-export default StaffPresent;
+}
