@@ -10,7 +10,8 @@ import {
   DrawerHeader,
 } from "./components/navbar/styles/styles";
 import StaffPresent from "./screens/students/StaffPresent";
-import SignIn from "./components/navbar/styles/Signin";
+import Signin from "./screens/Signin";
+import CreateUser from "./screens/CreateUser";
 
 const App = () => {
   const [open, setOpen] = useState(false);
@@ -24,7 +25,10 @@ const App = () => {
           <Route path="/parte" element={<StaffPresent />} />
         </Routes>
         <Routes>
-          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signin" element={<Signin />} />
+        </Routes>
+        <Routes>
+          <Route path="/createuser" element={<CreateUser />} />
         </Routes>
       </Main>
     </Box>
