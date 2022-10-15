@@ -25,10 +25,10 @@ const App = () => {
           <Route path="/parte" element={<StaffPresent />} />
         </Routes>
         <Routes>
-          <Route path="/signin" element={<Signin />} />
+          <Route path="/sign-in" element={<Signin />} />
         </Routes>
         <Routes>
-          <Route path="/createuser" element={<CreateUser />} />
+          <Route path="/create-user" element={<CreateUser />} />
         </Routes>
       </Main>
     </Box>
