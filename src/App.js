@@ -8,17 +8,17 @@ import { drawerWidth, Main, DrawerHeader } from './components/navbar/styles/styl
 import StaffPresent from './screens/students/StaffPresent';
 import SignIn from './screens/SignIn';
 import CreateUser from './screens/admin/CreateUser';
-
-import 'react-toastify/dist/ReactToastify.css';
 import StudentRoute from './components/routes/StudentRoute';
 import AdminRoute from './components/routes/AdminRoute';
 import Home from './screens/Home';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <CssBaseline />
         <Navbar open={open} setOpen={setOpen} drawerWidth={drawerWidth} />
         <Main open={open}>
