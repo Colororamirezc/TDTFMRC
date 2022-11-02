@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -11,17 +10,18 @@ import Container from '@mui/material/Container';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import { useDispatch, useSelector } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
-import { register, reset } from '../../features/auth/authSlice';
+import authService from '../../features/auth/authService';
 import { toast } from 'react-toastify';
-import { LinearProgress } from '@mui/material';
+import { CircularProgress } from '@mui/material';
+import Spinner from '../../components/spinner/Spinner';
+
+//TODO: Create validation for RUT, and get selects from DATABASE
 
 const theme = createTheme();
 
 const CreateUser = () => {
-  const [values, setValues] = useState({
+  const [formData, setFormData] = useState({
     name: '',
     lastName: '',
     rut: '',
@@ -29,55 +29,65 @@ const CreateUser = () => {
     specialty: '',
     administrativePermission: 0,
     FLA: 0,
-    admin:'',
+    role: '',
+    area: '',
     password: '',
     password2: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = e => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const { user, isLoading, isError, isSuccess, message } = useSelector(state => state.auth);
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSuccess || user) {
-      navigate('/home');
-    }
-
-    dispatch(reset());
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const handleSubmit = e => {
     e.preventDefault();
-    if (values.password !== values.password2) {
+    if (formData.password !== formData.password2) {
       return toast.error('Las contraseñas no coinciden');
-    } else if (values.password.length < 6) {
+    } else if (formData.password.length < 6) {
       toast.error('Contraseña muy corta');
     } else {
-      dispatch(register(values));
+      setIsLoading(true);
+      authService.register({
+        name: formData.name,
+        lastName: formData.lastName,
+        rut: formData.rut,
+        grade: formData.grade,
+        specialty: formData.specialty,
+        administrativePermission: formData.administrativePermission,
+        FLA: formData.FLA,
+        role: formData.role,
+        area: formData.area,
+        password: formData.password,
+      });
+      toast.success('Usuario creado con éxito');
+      setFormData({
+        name: '',
+        lastName: '',
+        rut: '',
+        grade: '',
+        specialty: '',
+        administrativePermission: 0,
+        FLA: 0,
+        role: '',
+        area: '',
+        password: '',
+        password2: '',
+      });
+      setIsLoading(false);
     }
   };
 
   if (isLoading) {
-    return (
-      <Box sx={{ width: '100%' }}>
-        <LinearProgress />
-      </Box>
-    );
+    return <Spinner/>
   }
 
   return (
     <ThemeProvider theme={theme}>
       <Container component='main' maxWidth='xs'>
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
@@ -96,14 +106,12 @@ const CreateUser = () => {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete='given-name'
-                  name={values.name}
+                  name='name'
                   required
                   fullWidth
                   label='Nombre'
-                  autoFocus
-                  id={values.name}
-                  value={values.name}
+                  id='name'
+                  value={formData.name}
                   onChange={handleChange}
                 />
               </Grid>
@@ -111,48 +119,79 @@ const CreateUser = () => {
                 <TextField
                   required
                   fullWidth
-                  id={values.lastName}
+                  id='lastName'
                   label='Apellidos'
-                  name={values.lastName}
-                  autoComplete='family-name'
-                  value={values.lastName}
+                  name='lastName'
+                  value={formData.lastName}
                   onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField required fullWidth id={values.rut} label='RUT' name={values.rut} autoComplete={values.rut} />
+                <TextField required fullWidth id='rut' label='RUT' name='rut' onChange={handleChange} value={formData.rut} />
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <InputLabel id='area'>Departamento o curso</InputLabel>
+                <Select
                   required
                   fullWidth
-                  name={values.grade}
-                  label='Grado'
-                  type={values.grade}
-                  id={values.grade}
-                  autoComplete={values.grade}
-                />
+                  name='area'
+                  label='Departamento o curso'
+                  id='area'
+                  value={formData.area}
+                  onChange={handleChange}
+                >
+                  <MenuItem value={'TI01'}>Primero TI</MenuItem>
+                  <MenuItem value={'I01'}>Primero I</MenuItem>
+                  <MenuItem value={'AD01'}>Primero AD</MenuItem>
+                  <MenuItem value={'TI02'}>Segundo TI</MenuItem>
+                  <MenuItem value={'I02'}>Segundo I</MenuItem>
+                  <MenuItem value={'AD02'}>Segundo AD</MenuItem>
+                </Select>
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <InputLabel id='grade'>Grado</InputLabel>
+                <Select required fullWidth name='grade' label='Grado' id='grade' value={formData.grade} onChange={handleChange}>
+                  <MenuItem value={'ALF'}>ALF</MenuItem>
+                  <MenuItem value={'STE'}>STE</MenuItem>
+                  <MenuItem value={'TTE'}>TTE</MenuItem>
+                  <MenuItem value={'CDB'}>CDB</MenuItem>
+                  <MenuItem value={'CDE'}>CDE</MenuItem>
+                  <MenuItem value={'CDG'}>CDG</MenuItem>
+                  <MenuItem value={'CDA'}>CDA</MenuItem>
+                  <MenuItem value={'SG'}>SG</MenuItem>
+                  <MenuItem value={'SG1'}>SG1</MenuItem>
+                  <MenuItem value={'PCP'}>PCP</MenuItem>
+                </Select>
+              </Grid>
+              <Grid item xs={12}>
+                <InputLabel id='specialty'>Especialidad</InputLabel>
+                <Select
                   required
                   fullWidth
-                  name={values.specialty}
+                  name='specialty'
                   label='Especialidad'
-                  type={values.specialty}
-                  id={values.specialty}
-                  autoComplete={values.specialty}
-                />
+                  id='specialty'
+                  value={formData.specialty}
+                  onChange={handleChange}
+                >
+                  <MenuItem value={'TI'}>TI</MenuItem>
+                  <MenuItem value={'AD'}>AD</MenuItem>
+                  <MenuItem value={'I'}>I</MenuItem>
+                  <MenuItem value={'A'}>A</MenuItem>
+                  <MenuItem value={'DA'}>DA</MenuItem>
+                  <MenuItem value={'NO_SPECIALTY'}>Sin especialidad</MenuItem>
+                </Select>
               </Grid>
               <Grid item xs={12} sm={6} md={12}>
-                <InputLabel id='228'>Días de 228</InputLabel>
+                <InputLabel id='administrativePermission'>Días de 228</InputLabel>
                 <Select
-                  id={values.administrativePermission}
                   labelId='Días de 228'
                   fullWidth
-                  name={values.administrativePermission}
+                  name='administrativePermission'
                   required
-                  value={values.administrativePermission}
+                  id='administrativePermission'
+                  type='number'
+                  value={formData.administrativePermission}
                   onChange={handleChange}
                 >
                   <MenuItem value={0}>0</MenuItem>
@@ -171,28 +210,52 @@ const CreateUser = () => {
                 </Select>
               </Grid>
               <Grid item xs={12} sm={6} md={12}>
-                <TextField required fullWidth id={values.FLA} label='FLA Disponibles' name={values.FLA} />
+                <InputLabel id='role'>Tipo de usuario</InputLabel>
+                <Select
+                  labelId='Tipo de usuario'
+                  fullWidth
+                  name='role'
+                  required
+                  id='role'
+                  value={formData.role}
+                  onChange={handleChange}
+                >
+                  <MenuItem value={'student'}>Estudiante</MenuItem>
+                  <MenuItem value={'admin'}>Administrador</MenuItem>
+                </Select>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6} md={12}>
                 <TextField
                   required
                   fullWidth
-                  name={values.password}
-                  label='Contraseña'
-                  type={values.password}
-                  id={values.password}
-                  autoComplete={values.password}
+                  id='FLA'
+                  label='FLA Disponibles'
+                  type='number'
+                  value={formData.FLA}
+                  name='FLA'
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name={values.password}
+                  name='password'
+                  label='Contraseña'
+                  type='password'
+                  id='password'
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name='password2'
                   label='Repita la contraseña'
-                  type={values.password}
-                  id={values.password}
-                  autoComplete={values.password}
+                  type='password'
+                  id='password2'
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>

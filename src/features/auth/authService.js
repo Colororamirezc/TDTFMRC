@@ -5,10 +5,6 @@ const API_URL = process.env.REACT_APP_BACKEND
 const register = async (userData) => {
   const response = await axios.post(`${API_URL}/create-user`, userData)
 
-  if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data))
-  }
-
   return response.data
 }
 

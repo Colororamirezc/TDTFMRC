@@ -10,6 +10,9 @@ import SignIn from './screens/SignIn';
 import CreateUser from './screens/admin/CreateUser';
 
 import 'react-toastify/dist/ReactToastify.css';
+import StudentRoute from './components/routes/StudentRoute';
+import AdminRoute from './components/routes/AdminRoute';
+import Home from './screens/Home';
 
 const App = () => {
   const [open, setOpen] = useState(false);
@@ -21,9 +24,14 @@ const App = () => {
         <Main open={open}>
           <DrawerHeader />
           <Routes>
-            <Route path='/' element={<SignIn />} />
-            <Route path='/parte' element={<StaffPresent />} />
-            <Route path='/create-user' element={<CreateUser />} />
+            <Route path='login' element={<SignIn />} />
+            <Route path='home' element={<Home />} />
+            <Route element={<StudentRoute />}>
+              <Route path='parte' element={<StaffPresent />} />
+            </Route>
+            <Route element={<AdminRoute />}>
+              <Route path='create-user' element={<CreateUser />} />
+            </Route>
           </Routes>
           <ToastContainer />
         </Main>

@@ -1,61 +1,77 @@
 import { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { login, reset } from '../features/auth/authSlice'
+import { LinearProgress } from '@mui/material';
 
 const theme = createTheme();
 
 const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    rut: '',
+    password: '',
+  })
 
-  let dispatch = useDispatch();
-  let navigate = useNavigate();
-  let location = useLocation();
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  )
 
   useEffect(() => {
-    let intended = location.state;
-    if (intended) {
-      return;
-    } else {
-      if (user && user.token) {
-        navigate("/");
-      }
+    if (isError) {
+      toast.error(message)
     }
-  }, [location.state, navigate, user]);
+
+    if (isSuccess || user) {
+      navigate('/home')
+    }
+
+    dispatch(reset())
+  }, [user, isError, isSuccess, message, navigate, dispatch])
+
+  const handleChange = e => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
 
   const handleSubmit = event => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('RUT'),
-      password: data.get('password'),
-    });
+    
+    dispatch(login(formData))
   };
+
+  if (isLoading) {
+    return (
+      <Box sx={{ width: '100%' }}>
+        <LinearProgress />
+      </Box>
+    );
+  }
+
   return (
     <ThemeProvider theme={theme}>
-      <Container component='main' maxWidth='xs'>
-        <CssBaseline />
+      <Container component='main'>
         <Box
           sx={{
             marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
+            justifyContent: 'center',
+            margin: 'auto',
             alignItems: 'center',
           }}
         >
@@ -66,29 +82,21 @@ const SignIn = () => {
             Ingresa Aquí
           </Typography>
           <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField margin='normal' required fullWidth id='RUT' label='RUT' name='RUT' autoComplete='RUT' autoFocus />
+            <TextField margin='normal' required fullWidth id='rut' label='Rut' name='rut' value={formData.rut} onChange={handleChange} autoFocus />
             <TextField
               margin='normal'
               required
               fullWidth
               name='password'
-              label='Password'
+              label='Contraseña'
               type='password'
               id='password'
-              autoComplete='current-password'
+              onChange={handleChange}
+              value={formData.password}
             />
-            <FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Remember me' />
             <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
-              Ingresa
+              Ingresar
             </Button>
-            <Grid container>
-              <Grid item xs></Grid>
-              <Grid item>
-                <Link href='#' variant='body2'>
-                  {'No tienes una cuenta? Contáctanos!'}
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>
