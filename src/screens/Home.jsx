@@ -1,9 +1,22 @@
-import React from 'react'
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
-const Home = () => {
+export default function Types() {
   return (
-    <div><p>lorem ipsum dolor sit amet, consectetur adip lorem</p></div>
-  )
+    <Box sx={{ width: '100%', maxWidth: 500 }}>
+      <Typography variant="h1" gutterBottom>
+        Instrucciones
+      </Typography>
+      <Typography variant="subtitle2" gutterBottom>
+        Siga las siguientes instrucciones para poder ingresar el Parte de Alimentación de su respectivo curso.
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+    
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+    1
+      </Typography>
+    </Box>
+  );
 }
-
-export default Home

@@ -47,7 +47,7 @@ const Navbar = ({ open, setOpen }) => {
           <Toolbar>
             <IconButton color='inherit' edge='end' onClick={() => navigate('login')}>
               <Typography variant='h6' component='div'>
-                Ingrese usuario
+                Ingrese Usuario
               </Typography>
             </IconButton>
           </Toolbar>

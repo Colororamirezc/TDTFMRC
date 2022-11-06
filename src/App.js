@@ -12,10 +12,13 @@ import StudentRoute from './components/routes/StudentRoute';
 import AdminRoute from './components/routes/AdminRoute';
 import Home from './screens/Home';
 
+
 import 'react-toastify/dist/ReactToastify.css';
+
 
 const App = () => {
   const [open, setOpen] = useState(false);
+  
   return (
     <>
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
