@@ -7,6 +7,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+
+
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,58 +32,148 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(grade, specialty, name, rut, lunch, reason) {
-  return { grade, specialty, name, rut, lunch, reason };
+function createData(
+  grade,
+  specialty,
+  name,
+  lastName,
+  rut,
+  lunch,
+  withMotive,
+  reason
+) {
+  return { grade, specialty, name, lastName, rut, lunch, withMotive, reason };
 }
 
 const rows = [
-  createData("STE", "(TI)", "Luis Chamorro Soto", "19.524.920-2", "SI", "-"),
   createData(
     "STE",
     "(TI)",
-    "Matías Ramírez Cisternas",
+    "Luis",
+    "Chamorro",
+    "19.524.920-2",
+    <input type="Checkbox"></input>,
+    <input type="Checkbox"></input>,
+    <select name="select">
+      <option value="Motive1" selected>
+        -
+      </option>
+      <option value="Motive2">228</option>
+      <option value="Motive3">FLA</option>
+      <option value="Motive4">Comisión</option>
+    </select>
+  ),
+  createData(
+    "STE",
+    "(TI)",
+    "Matías",
+    "Ramírez",
     "19.469.189-0",
-    "SI",
-    "-"
+    <input type="Checkbox"></input>,
+    <input type="Checkbox"></input>,
+    <select name="select">
+      <option value="Motive1" selected>
+        -
+      </option>
+      <option value="Motive2">228</option>
+      <option value="Motive3">FLA</option>
+      <option value="Motive4">Comisión</option>
+    </select>
   ),
   createData(
     "STE",
     "(TI)",
-    "Daniel Valdivia Faúndez",
+    "Daniel",
+    "Valdivia",
     "19.716.744-0",
-    "SI",
-    "-"
+    <input type="Checkbox"></input>,
+    <input type="Checkbox"></input>,
+    <select name="select">
+      <option value="Motive1" selected>
+        -
+      </option>
+      <option value="Motive2">228</option>
+      <option value="Motive3">FLA</option>
+      <option value="Motive4">Comisión</option>
+    </select>
   ),
   createData(
     "STE",
     "(TI)",
-    "Gonzalo Fuentes Gesell",
+    "Gonzalo",
+    "Fuentes",
     "19.366.717-1",
-    "NO",
-    "BALCE"
+    <input type="Checkbox"></input>,
+    <input type="Checkbox"></input>,
+    <select name="select">
+      <option value="Motive1" selected>
+        -
+      </option>
+      <option value="Motive2">228</option>
+      <option value="Motive3">FLA</option>
+      <option value="Motive4">Comisión</option>
+    </select>
   ),
-  createData("STE", "(TI)", "Esteban Vera Garrido", "19.154.446-3", "SI", "-"),
   createData(
     "STE",
     "(TI)",
-    "Cristobal Careaga Zapata",
+    "Esteban",
+    "Vera",
+    "19.154.446-3",
+    <input type="Checkbox"></input>,
+    <input type="Checkbox"></input>,
+    <select name="select">
+      <option value="Motive1" selected>
+        -
+      </option>
+      <option value="Motive2">228</option>
+      <option value="Motive3">FLA</option>
+      <option value="Motive4">Comisión</option>
+    </select>
+  ),
+  createData(
+    "STE",
+    "(TI)",
+    "Cristobal",
+    "Careaga",
     "19.700.925-K",
-    "SI",
-    "-"
+    <input type="Checkbox"></input>,
+    <input type="Checkbox"></input>,
+    <select name="select">
+      <option value="Motive1" selected>
+        -
+      </option>
+      <option value="Motive2">228</option>
+      <option value="Motive3">FLA</option>
+      <option value="Motive4">Comisión</option>
+    </select>
   ),
 ];
 
 export default function CustomizedTables() {
   return (
+    
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table
+        sx={{
+          marginTop: 8,
+          flexDirection: "column",
+          justifyContent: "center",
+          margin: "auto",
+          alignItems: "center",
+          minWidth: 800,
+        }}
+        aria-label="customized table"
+      >
         <TableHead>
           <TableRow>
             <StyledTableCell>Grado </StyledTableCell>
             <StyledTableCell align="center">Especialidad</StyledTableCell>
             <StyledTableCell align="left">Nombre</StyledTableCell>
+            <StyledTableCell align="left">Apellido</StyledTableCell>
             <StyledTableCell align="left">Rut</StyledTableCell>
             <StyledTableCell align="center">Almuerzo</StyledTableCell>
+            <StyledTableCell align="center">¿Con Motivo?</StyledTableCell>
             <StyledTableCell align="center">Motivo</StyledTableCell>
           </TableRow>
         </TableHead>
@@ -91,13 +185,19 @@ export default function CustomizedTables() {
               </StyledTableCell>
               <StyledTableCell align="center">{row.specialty}</StyledTableCell>
               <StyledTableCell align="left">{row.name}</StyledTableCell>
+              <StyledTableCell align="left">{row.lastName}</StyledTableCell>
               <StyledTableCell align="left">{row.rut}</StyledTableCell>
               <StyledTableCell align="center">{row.lunch}</StyledTableCell>
+              <StyledTableCell align="center">{row.withMotive}</StyledTableCell>
               <StyledTableCell align="center">{row.reason}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
       </Table>
+      <Button type="submit" fullWidth variant="contained" sx={{ mt: 1, mb: 0 }}>
+        Ingrese Parte de Alimentación al Sistema
+      </Button>
     </TableContainer>
   );
 }
+

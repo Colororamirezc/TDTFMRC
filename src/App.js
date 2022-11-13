@@ -11,7 +11,7 @@ import CreateUser from './screens/admin/CreateUser';
 import StudentRoute from './components/routes/StudentRoute';
 import AdminRoute from './components/routes/AdminRoute';
 import Home from './screens/Home';
-
+import './styles.css'
 
 import 'react-toastify/dist/ReactToastify.css';
 

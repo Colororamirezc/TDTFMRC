@@ -17,6 +17,6 @@ export default function Types() {
       <Typography variant="body1" gutterBottom>
     1
       </Typography>
-    </Box>
-  );
+    </Box>
+  );
 }
