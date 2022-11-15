@@ -69,7 +69,7 @@ const Navbar = ({ open, setOpen }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-            Parte alimentación
+            Parte de Alimentación
           </Typography>
           <IconButton color='inherit' edge='end' onClick={onLogout}>
             <LogoutIcon />
@@ -104,21 +104,21 @@ const Navbar = ({ open, setOpen }) => {
               <ListItemText primary={'Instructivo'} />
             </ListItemButton>
           </ListItem>
-          <ListItem key={'Ingrese parte'} disablePadding>
+          <ListItem key={'Ingrese Parte'} disablePadding>
             <ListItemButton onClick={() => navigate('parte')}>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary={'Ingrese parte'} />
+              <ListItemText primary={'Ingrese Parte'} />
             </ListItemButton>
           </ListItem>
           {user.role === 'admin' && (
-            <ListItem key={'Crear usuario'} disablePadding>
+            <ListItem key={'Crear Usuario'} disablePadding>
               <ListItemButton onClick={() => navigate('create-user')}>
                 <ListItemIcon>
                   <InboxIcon />
                 </ListItemIcon>
-                <ListItemText primary={'Crear usuario'} />
+                <ListItemText primary={'Crear Usuario'} />
               </ListItemButton>
             </ListItem>
           )}
