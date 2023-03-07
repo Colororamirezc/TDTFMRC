@@ -1,0 +1,15 @@
+
+
+html {
+  background-image: url("./screens/images/Fondo.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  font-family: Helvetica, Arial, Sans-Serif;
+  font: size 1.3rem;
+  padding: 70px;
+}
+
+body {
+  background-color: transparent;
+}
